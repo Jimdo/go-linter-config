@@ -1,17 +1,23 @@
 version: "2"
+run:
+  allow-parallel-runners: true
 linters:
   default: none
   enable:
+    - dupl
+    - errcheck
+    - ginkgolinter
     - goconst
     - gosec
+    - gocyclo
     - govet
     - ineffassign
-    - misspell
     - revive
+    - misspell
+    - nakedret
     - staticcheck
     - unparam
     - unused
-    - errcheck
   exclusions:
     generated: lax
     presets:
@@ -19,6 +25,14 @@ linters:
       - common-false-positives
       - legacy
       - std-error-handling
+    rules:
+      - linters:
+          - lll
+        path: api/*
+      - linters:
+          - dupl
+          - lll
+        path: internal/*
     paths:
       - third_party$
       - builtin$
