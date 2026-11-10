@@ -18,6 +18,14 @@ linters:
     - staticcheck
     - unparam
     - unused
+  settings:
+    goconst:
+      # golangci-lint runs goconst on test files by default (unlike upstream
+      # goconst, which ignores them). Repeated string literals in table-driven
+      # tests and fixtures are idiomatic; counting them toward goconst's
+      # 3-occurrence threshold forces pointless constants for strings used only
+      # once in production. Restrict goconst to production code.
+      ignore-tests: true
   exclusions:
     generated: lax
     presets:
@@ -26,11 +34,6 @@ linters:
       - legacy
       - std-error-handling
     rules:
-      # Repeated string literals in table-driven tests and fixtures are
-      # idiomatic; restrict goconst to production code.
-      - linters:
-          - goconst
-        path: _test\.go
       - linters:
           - lll
         path: api/*
